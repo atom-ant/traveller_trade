@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traveller Trade</title>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>Traveller Trade</h1>
+
+    <form id="myForm">
+        <fieldset>
+            <legend>Source World:</legend>
+            <label for="sourceUwp">UWP (Example: B628943-D):</label><br>
+            <input type="text" id="sourceUwp" name="sourceUwp" maxlength="9" placeholder="B628943-D" required value="" /><br>
+            <label for="sourceTravelZone">Travel Zone:</label><br>
+            <select id="sourceTravelZone" name="sourceTravelZone" required>
+                <option value=" " selected>Green Zone</option>
+                <option value="A">Amber Zone</option>
+                <option value="R">Red Zone</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Destination World:</legend>
+            <label for="destinationUwp">UWP (Example: C6678D8-6):</label><br>
+            <input type="text" id="destinationUwp" name="destinationUwp" maxlength="9" placeholder="C6678D8-6" required value="" /><br>
+            <label for="destinationTravelZone">Travel Zone:</label><br>
+            <select id="destinationTravelZone" name="destinationTravelZone" required>
+                <option value=" ">Green Zone</option>
+                <option value="A" selected>Amber Zone</option>
+                <option value="R">Red Zone</option>
+            </select>
+        </fieldset>
+        <label for="parsecsTravelled">Distance (Parsecs):</label>
+        <input type="number" id="parsecsTravelled" name="parsecsTravelled" min="1" max="6" required value="1"><br>
+        <fieldset>
+            <legend>Passenger Traffic Table Modifiers:</legend>
+            <label for="brokerCarouseStreetwiseEffect">Effect of an Avergage (8+) Broker, Carouse, or Streetwise Skill Check:</label><br>
+            <input type="number"
+                id="brokerCarouseStreetwiseEffect" name="brokerCarouseStreetwiseEffect"
+                title="Enter effect or use the Roll Skill Check (with Skill DM)"
+                min="-9"
+                max="9"
+                required value=""
+                />
+            <label for="brokerCarouseStreetwiseDm">Skill DM:</label>
+            <input type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1" />
+            <button type="button" id="brokerCarouseStreewiseCheckButton">Roll Skill Check</button><br>
+            <label for="chiefStewardSkill">Highest Steward Skill:</label>
+            <input type="number" id="chiefStewardSkill" name="chiefStewardSkill" min="0" max="5" required value="1" /><br>
+            <label for="miscDm">Misc DM:</label>
+            <input type="number" id="miscDm" min="-3" max="3" required value="0" />
+        </fieldset>
+        <input type="submit" value="Roll For Passengers" />
+    </form>
+
+    <h2>Passenger Traffic</h2>
+
+    <p id="passengersResults"></p>
+
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript">
+        function addUwpPatternToHtmlElement(id) {
+            const element = document.getElementById(id);
+
+            const regexString = getUwpRegex().source;
+            element.setAttribute("pattern", regexString);
+        }
+
+        addUwpPatternToHtmlElement("sourceUwp");
+        addUwpPatternToHtmlElement("destinationUwp");
+
+        function onChange() {
+            const passengersResults = document.getElementById("passengersResults")
+            passengersResults.innerHTML = "";
+        }
+
+        document.getElementById("sourceUwp").addEventListener("change", onChange);
+        document.getElementById("sourceTravelZone").addEventListener("change", onChange);
+        document.getElementById("destinationUwp").addEventListener("change", onChange);
+        document.getElementById("destinationTravelZone").addEventListener("change", onChange);
+        document.getElementById("parsecsTravelled").addEventListener("change", onChange);
+        document.getElementById("brokerCarouseStreetwiseEffect").addEventListener("change", onChange);
+        document.getElementById("chiefStewardSkill").addEventListener("change", onChange);
+        document.getElementById("miscDm").addEventListener("change", onChange);
+
+        const brokerCarouseStreewiseCheckButton = document.getElementById("brokerCarouseStreewiseCheckButton");
+        brokerCarouseStreewiseCheckButton.addEventListener("click", function () {
+            const brokerCarouseStreetwiseDm = document.getElementById("brokerCarouseStreetwiseDm");
+            let check = rollDice(2, Number(brokerCarouseStreetwiseDm.value));
+            const brokerCarouseStreetwiseEffect = document.getElementById("brokerCarouseStreetwiseEffect");
+            brokerCarouseStreetwiseEffect.value = check - 8;
+            onChange();
+        });
+
+        document.getElementById("myForm").onsubmit = function (submitEvent) {
+            submitEvent.preventDefault(); // don't submit anything
+            const passengersResults = document.getElementById("passengersResults")
+            passengersResults.innerHTML = "";
+            try {
+                srcUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
+                destUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("destinationTravelZone").value);
+
+                let basePassengerTrafficDm =
+                    Number(document.getElementById("brokerCarouseStreetwiseEffect").value) +
+                    Number(document.getElementById("chiefStewardSkill").value) +
+                    Number(document.getElementById("miscDm").value);
+
+                const parsecs = Number(document.getElementById("parsecsTravelled").value);
+                if (parsecs > 1) {
+                    basePassengerTrafficDm -= (parsecs - 1);
+                }
+
+                basePassengerTrafficDm += srcUwp.passengerTrafficDiceModifier();
+                basePassengerTrafficDm += destUwp.passengerTrafficDiceModifier();
+
+                passengersResults.innerHTML = "Base Passenger Traffic Dice Modifier: " + basePassengerTrafficDm;
+            }
+            catch (err) {
+            }
+        };
+
+    </script>
+</body>
+</html>
