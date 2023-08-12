@@ -36,21 +36,18 @@
         <input type="number" id="parsecsTravelled" name="parsecsTravelled" min="1" max="6" required value="1"><br>
         <fieldset>
             <legend>Passenger Traffic Table Modifiers:</legend>
-            <label for="brokerCarouseStreetwiseEffect">Effect of an Avergage (8+) Broker, Carouse, or Streetwise Skill Check:</label><br>
-            <input type="number"
-                id="brokerCarouseStreetwiseEffect" name="brokerCarouseStreetwiseEffect"
-                title="Enter effect or use the Roll Skill Check (with Skill DM)"
-                min="-9"
-                max="9"
-                required value=""
-                />
-            <label for="brokerCarouseStreetwiseDm">Skill DM:</label>
-            <input type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1" />
-            <button type="button" id="brokerCarouseStreewiseCheckButton">Roll Skill Check</button><br>
+            <label for="brokerCarouseStreetwiseDm">Broker, Carouse, or Streetwise Skill Level:</label>
+            <input type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1" /><br>
             <label for="chiefStewardSkill">Highest Steward Skill:</label>
             <input type="number" id="chiefStewardSkill" name="chiefStewardSkill" min="0" max="5" required value="1" /><br>
-            <label for="miscDm">Misc DM:</label>
-            <input type="number" id="miscDm" min="-3" max="3" required value="0" />
+            <label for="miscHighDm">Misc DM (High Passengers):</label>
+            <input type="number" id="miscHighDm" min="-3" max="3" required value="0" />
+            <label for="miscMiddleDm">Misc DM (Middle Passengers):</label>
+            <input type="number" id="miscMiddleDm" min="-3" max="3" required value="0" />
+            <label for="miscBasicDm">Misc DM (Basic Passengers):</label>
+            <input type="number" id="miscBasicDm" min="-3" max="3" required value="0" />
+            <label for="miscLowDm">Misc DM (Low Passengers):</label>
+            <input type="number" id="miscLowDm" min="-3" max="3" required value="0" />
         </fieldset>
         <input type="submit" value="Roll For Passengers" />
     </form>
@@ -58,13 +55,16 @@
     <h2>Passenger Traffic</h2>
 
     <p id="passengersResults"></p>
+    <p id="viewDetailsMessage" hidden>View console for details (F12).</p>
 
     <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript">
+        "use strict";
+
         function addUwpPatternToHtmlElement(id) {
             const element = document.getElementById(id);
 
-            const regexString = getUwpRegex().source;
+            const regexString = WorlProfile.getRegex().source;
             element.setAttribute("pattern", regexString);
         }
 
@@ -74,6 +74,9 @@
         function onChange() {
             const passengersResults = document.getElementById("passengersResults")
             passengersResults.innerHTML = "";
+            const viewDetailsMessage = document.getElementById("viewDetailsMessage")
+            viewDetailsMessage.hidden = true;
+            console.clear();
         }
 
         document.getElementById("sourceUwp").addEventListener("change", onChange);
@@ -81,43 +84,42 @@
         document.getElementById("destinationUwp").addEventListener("change", onChange);
         document.getElementById("destinationTravelZone").addEventListener("change", onChange);
         document.getElementById("parsecsTravelled").addEventListener("change", onChange);
-        document.getElementById("brokerCarouseStreetwiseEffect").addEventListener("change", onChange);
+        document.getElementById("brokerCarouseStreetwiseDm").addEventListener("change", onChange);
         document.getElementById("chiefStewardSkill").addEventListener("change", onChange);
-        document.getElementById("miscDm").addEventListener("change", onChange);
-
-        const brokerCarouseStreewiseCheckButton = document.getElementById("brokerCarouseStreewiseCheckButton");
-        brokerCarouseStreewiseCheckButton.addEventListener("click", function () {
-            const brokerCarouseStreetwiseDm = document.getElementById("brokerCarouseStreetwiseDm");
-            let check = rollDice(2, Number(brokerCarouseStreetwiseDm.value));
-            const brokerCarouseStreetwiseEffect = document.getElementById("brokerCarouseStreetwiseEffect");
-            brokerCarouseStreetwiseEffect.value = check - 8;
-            onChange();
-        });
+        document.getElementById("miscHighDm").addEventListener("change", onChange);
+        document.getElementById("miscMiddleDm").addEventListener("change", onChange);
+        document.getElementById("miscBasicDm").addEventListener("change", onChange);
+        document.getElementById("miscLowDm").addEventListener("change", onChange);
 
         document.getElementById("myForm").onsubmit = function (submitEvent) {
             submitEvent.preventDefault(); // don't submit anything
             const passengersResults = document.getElementById("passengersResults")
             passengersResults.innerHTML = "";
+            console.clear();
             try {
-                srcUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
-                destUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("destinationTravelZone").value);
+                const srcUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
+                const destUwp = new WorlProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
 
-                let basePassengerTrafficDm =
-                    Number(document.getElementById("brokerCarouseStreetwiseEffect").value) +
-                    Number(document.getElementById("chiefStewardSkill").value) +
-                    Number(document.getElementById("miscDm").value);
-
+                const brokerCarouseStreetwiseDm = Number(document.getElementById("brokerCarouseStreetwiseDm").value);
+                const chiefStewardSkill = Number(document.getElementById("chiefStewardSkill").value);
                 const parsecs = Number(document.getElementById("parsecsTravelled").value);
-                if (parsecs > 1) {
-                    basePassengerTrafficDm -= (parsecs - 1);
-                }
 
-                basePassengerTrafficDm += srcUwp.passengerTrafficDiceModifier();
-                basePassengerTrafficDm += destUwp.passengerTrafficDiceModifier();
+                const miscHighDm = Number(document.getElementById("miscHighDm").value);
+                const miscMiddleDm = Number(document.getElementById("miscMiddleDm").value);
+                const miscBasicDm = Number(document.getElementById("miscBasicDm").value);
+                const miscLowDm = Number(document.getElementById("miscLowDm").value);
 
-                passengersResults.innerHTML = "Base Passenger Traffic Dice Modifier: " + basePassengerTrafficDm;
+                passengersResults.innerHTML =
+                    "High Passengers: " + Passengers.availableHighPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscHighDm) + "<br>" +
+                    "Middle Passengers: " + Passengers.availableMiddlePassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscMiddleDm) + "<br>" +
+                    "Basic Passengers: " + Passengers.availableBasicPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscBasicDm) + "<br>" +
+                    "Low Passengers: " + Passengers.availableLowPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscLowDm);
+
+                const viewDetailsMessage = document.getElementById("viewDetailsMessage")
+                viewDetailsMessage.hidden = false;
             }
             catch (err) {
+                console.error("Error: " + err);
             }
         };
 
