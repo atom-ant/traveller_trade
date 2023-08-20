@@ -1,3 +1,171 @@
-﻿input:invalid {
-    border-color: red;
+﻿/* #F6F5F5 White */
+/* #D3E0EA Light Grey */
+/* #1687A7 Light Blue */
+/* #276678 Blue */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #F6F5F5;
+}
+
+header {
+    max-width: 800px;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 4px;
+
+    padding: 8px;
+}
+
+header h1 {
+    color: orangered;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+header hr {
+    border: 2px solid orangered;
+}
+
+section {
+    max-width: 800px;
+    margin: auto;
+}
+
+fieldset {
+    border-radius: 5px;
+    border: 2px solid #1687A7;
+
+    margin-top: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+
+    padding-top: 11px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    font-size: 16px;
+}
+
+legend {
+    border-radius: 5px;
+    background-color: #1687A7;
+    color: white;
+    padding: 5px 10px;
+}
+
+input[type=text] {
+    font-size: 14px;
+}
+
+input[type=submit] {
+    font-size: 14px;
+}
+
+input[type=number] {
+    width: 40px;
+    font-size: 14px;
+}
+
+input:invalid:focus {
+    outline: 0;
+    border: none;
+    box-shadow: 0 0 2px 4px #ff4500;
+}
+
+select {
+    font-size: 14px;
+}
+
+label hr {
+    border: 1px solid #1687A7;
+}
+
+table {
+    border-spacing: 0px;
+}
+
+td {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.sideBySide {
+    float: left;
+    width: 50%;
+}
+
+.clearFix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.firstFormItem {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+.firstColLabels {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-right: 4px;
+    display: inline-block;
+}
+
+.secondColLabels {
+    margin-top: 4px;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    padding-right: 4px;
+    display: inline-block;
+}
+
+#passengersResults {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    line-height: 26px;
+}
+
+#miscLabel {
+    font-weight: bold;
+    color: #1687A7;
+}
+
+#viewDetailsMessage {
+    font-size: 14px;
+    font-style: italic;
+    color: dimgrey;
+}
+
+footer {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+    margin-bottom: 4px;
+    padding: 8px;
+
+    text-align: right;
+}
+
+#copyright {
+    font-size: 10px;
+    color: dimgrey;
+}
+
+#permission {
+    font-size: 10px;
+    font-style: italic;
+    color: dimgrey;
 }

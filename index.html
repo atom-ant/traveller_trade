@@ -1,64 +1,116 @@
 ﻿<!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traveller Trade</title>
-    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Traveller Trade</h1>
 
-    <form id="myForm">
-        <fieldset>
-            <legend>Source World:</legend>
-            <label for="sourceUwp">UWP (Example: B628943-D):</label><br>
-            <input type="text" id="sourceUwp" name="sourceUwp" maxlength="9" placeholder="B628943-D" required value="" /><br>
-            <label for="sourceTravelZone">Travel Zone:</label><br>
-            <select id="sourceTravelZone" name="sourceTravelZone" required>
-                <option value=" " selected>Green Zone</option>
-                <option value="A">Amber Zone</option>
-                <option value="R">Red Zone</option>
-            </select>
-        </fieldset>
-        <fieldset>
-            <legend>Destination World:</legend>
-            <label for="destinationUwp">UWP (Example: C6678D8-6):</label><br>
-            <input type="text" id="destinationUwp" name="destinationUwp" maxlength="9" placeholder="C6678D8-6" required value="" /><br>
-            <label for="destinationTravelZone">Travel Zone:</label><br>
-            <select id="destinationTravelZone" name="destinationTravelZone" required>
-                <option value=" ">Green Zone</option>
-                <option value="A" selected>Amber Zone</option>
-                <option value="R">Red Zone</option>
-            </select>
-        </fieldset>
-        <label for="parsecsTravelled">Distance (Parsecs):</label>
-        <input type="number" id="parsecsTravelled" name="parsecsTravelled" min="1" max="6" required value="1"><br>
-        <fieldset>
-            <legend>Passenger Traffic Table Modifiers:</legend>
-            <label for="brokerCarouseStreetwiseDm">Broker, Carouse, or Streetwise Skill Level:</label>
-            <input type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1" /><br>
-            <label for="chiefStewardSkill">Highest Steward Skill:</label>
-            <input type="number" id="chiefStewardSkill" name="chiefStewardSkill" min="0" max="5" required value="1" /><br>
-            <label for="miscHighDm">Misc DM (High Passengers):</label>
-            <input type="number" id="miscHighDm" min="-3" max="3" required value="0" />
-            <label for="miscMiddleDm">Misc DM (Middle Passengers):</label>
-            <input type="number" id="miscMiddleDm" min="-3" max="3" required value="0" />
-            <label for="miscBasicDm">Misc DM (Basic Passengers):</label>
-            <input type="number" id="miscBasicDm" min="-3" max="3" required value="0" />
-            <label for="miscLowDm">Misc DM (Low Passengers):</label>
-            <input type="number" id="miscLowDm" min="-3" max="3" required value="0" />
-        </fieldset>
-        <input type="submit" value="Roll For Passengers" />
-    </form>
+    <header>
+        <h1>Traveller Trade</h1>
+        <hr/>
+    </header>
 
-    <h2>Passenger Traffic</h2>
+    <section>
+        <form id="myForm">
+            <div class="clearFix">
+                <div class="sideBySide">
+                    <fieldset>
+                        <legend>Source World</legend>
+                        <label class="firstFormItem" for="sourceUwp">UWP (Example: B628943-D):</label><br>
+                        <input class="firstFormItem" type="text" id="sourceUwp" name="sourceUwp" maxlength="9" placeholder="B628943-D" required value=""><br>
+                        <label class="firstFormItem" for="sourceTravelZone">Travel Zone:</label>
+                        <select id="sourceTravelZone" name="sourceTravelZone" required>
+                            <option value=" " selected>Green Zone</option>
+                            <option value="A">Amber Zone</option>
+                            <option value="R">Red Zone</option>
+                        </select>
+                    </fieldset>
+                </div>
 
-    <p id="passengersResults"></p>
-    <p id="viewDetailsMessage" hidden>View console for details (F12).</p>
+                <div class="sideBySide">
+                    <fieldset>
+                        <legend>Destination World</legend>
+                        <label class="firstFormItem" for="destinationUwp">UWP (Example: C6678D8-6):</label><br>
+                        <input class="firstFormItem" type="text" id="destinationUwp" name="destinationUwp" maxlength="9" placeholder="C6678D8-6" required value=""><br>
+                        <label class="firstFormItem" for="destinationTravelZone">Travel Zone:</label>
+                        <select id="destinationTravelZone" name="destinationTravelZone" required>
+                            <option value=" " selected>Green Zone</option>
+                            <option value="A">Amber Zone</option>
+                            <option value="R">Red Zone</option>
+                        </select>
+                    </fieldset>
+                </div>
+            </div>
 
-    <script type="text/javascript" src="js/script.js"></script>
-    <script type="text/javascript">
+            <fieldset>
+                <legend>Distance Travelled</legend>
+                <label class="firstFormItem" for="parsecsTravelled">Parsecs:</label>
+                <input type="number" id="parsecsTravelled" name="parsecsTravelled" min="1" max="6" required value="1"><br>
+            </fieldset>
+
+            <fieldset>
+                <legend>Passenger Traffic Table Modifiers</legend>
+                <label class="firstFormItem" for="brokerCarouseStreetwiseDm">Broker, Carouse, or Streetwise Skill Level:</label>
+                <input class="firstFormItem" type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1"><br>
+                <label class="firstFormItem" for="chiefStewardSkill">Highest Steward Skill:</label>
+                <input class="firstFormItem" type="number" id="chiefStewardSkill" name="chiefStewardSkill" min="0" max="5" required value="1"><br>
+
+                <label class="firstFormItem" id="miscLabel">Miscellaneous Modifiers</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label class="firstColLabels" for="miscHighDm">High Passengers:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="miscHighDm" min="-6" max="6" required value="0">
+                        </td>
+                        <td>
+                            <label class="secondColLabels" for="miscMiddleDm">Middle Passengers:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="miscMiddleDm" min="-6" max="6" required value="0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="firstColLabels" for="miscBasicDm">Basic Passengers:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="miscBasicDm" min="-6" max="6" required value="0">
+                        </td>
+                        <td>
+                            <label class="secondColLabels" for="miscLowDm">Low Passengers:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="miscLowDm" min="-6" max="6" required value="0">
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <fieldset>
+                <legend>Passenger Traffic</legend>
+                <input type="submit" value="Roll For Passengers">
+
+                <p id="passengersResults"></p>
+                <p id="viewDetailsMessage" hidden>View console for details (F12)</p>
+            </fieldset>
+        </form>
+    </section>
+
+    <footer>
+        <p id="copyright">&copy; 2023 atom-ant<br><br></p>
+        <p id="permission">
+            Used with the permission of Mongoose Publishing Ltd. Traveller &copy; 2023 Mongoose Publishing. All rights reserved.<br>
+            Traveller is the trademark of Mongoose Publishing and is used with permission.
+        </p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
         "use strict";
 
         function addUwpPatternToHtmlElement(id) {
@@ -122,7 +174,6 @@
                 console.error("Error: " + err);
             }
         };
-
     </script>
 </body>
 </html>
