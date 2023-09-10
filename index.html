@@ -1,16 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Traveller Trade</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
     <header>
         <h1>Traveller Trade</h1>
-        <hr/>
+        <hr />
     </header>
 
     <section>
@@ -19,8 +18,8 @@
                 <div class="sideBySide">
                     <fieldset>
                         <legend>Source World</legend>
-                        <label class="firstFormItem" for="sourceUwp">UWP (Example: B628943-D):</label><br>
-                        <input class="firstFormItem" type="text" id="sourceUwp" name="sourceUwp" maxlength="9" placeholder="B628943-D" required value=""><br>
+                        <label class="firstFormItem" for="sourceUwp">UWP (Example: B628943-D):</label><br />
+                        <input class="firstFormItem" type="text" id="sourceUwp" name="sourceUwp" maxlength="18" placeholder="B628943-D" required value="" /><br />
                         <label class="firstFormItem" for="sourceTravelZone">Travel Zone:</label>
                         <select id="sourceTravelZone" name="sourceTravelZone" required>
                             <option value=" " selected>Green Zone</option>
@@ -33,8 +32,8 @@
                 <div class="sideBySide">
                     <fieldset>
                         <legend>Destination World</legend>
-                        <label class="firstFormItem" for="destinationUwp">UWP (Example: C6678D8-6):</label><br>
-                        <input class="firstFormItem" type="text" id="destinationUwp" name="destinationUwp" maxlength="9" placeholder="C6678D8-6" required value=""><br>
+                        <label class="firstFormItem" for="destinationUwp">UWP (Example: C6678D8-6):</label><br />
+                        <input class="firstFormItem" type="text" id="destinationUwp" name="destinationUwp" maxlength="18" placeholder="C6678D8-6" required value="" /><br />
                         <label class="firstFormItem" for="destinationTravelZone">Travel Zone:</label>
                         <select id="destinationTravelZone" name="destinationTravelZone" required>
                             <option value=" " selected>Green Zone</option>
@@ -46,32 +45,32 @@
             </div>
 
             <fieldset>
-                <legend>Distance Travelled</legend>
+                <legend>Distance</legend>
                 <label class="firstFormItem" for="parsecsTravelled">Parsecs:</label>
-                <input type="number" id="parsecsTravelled" name="parsecsTravelled" min="1" max="6" required value="1"><br>
+                <input type="number" id="parsecsTravelled" name="parsecsTravelled" min="1" max="6" required value="1" />
             </fieldset>
 
             <fieldset>
-                <legend>Passenger Traffic Table Modifiers</legend>
-                <label class="firstFormItem" for="brokerCarouseStreetwiseDm">Broker, Carouse, or Streetwise Skill Level:</label>
-                <input class="firstFormItem" type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1"><br>
+                <legend>Passengers</legend>
+                <label class="firstFormItem" for="brokerCarouseStreetwiseDm">Broker, Carouse, or Streetwise Skill:</label>
+                <input class="firstFormItem" type="number" id="brokerCarouseStreetwiseDm" min="-3" max="5" required value="1" /><br />
                 <label class="firstFormItem" for="chiefStewardSkill">Highest Steward Skill:</label>
-                <input class="firstFormItem" type="number" id="chiefStewardSkill" name="chiefStewardSkill" min="0" max="5" required value="1"><br>
+                <input class="firstFormItem" type="number" id="chiefStewardSkill" name="chiefStewardSkill" min="0" max="5" required value="1" /><br />
 
-                <label class="firstFormItem" id="miscLabel">Miscellaneous Modifiers</label>
+                <label class="firstFormItem miscLabel">Miscellaneous Modifiers</label>
                 <table>
                     <tr>
                         <td>
                             <label class="firstColLabels" for="miscHighDm">High Passengers:</label>
                         </td>
                         <td>
-                            <input type="number" id="miscHighDm" min="-6" max="6" required value="0">
+                            <input type="number" id="miscHighDm" min="-6" max="6" required value="0" />
                         </td>
                         <td>
                             <label class="secondColLabels" for="miscMiddleDm">Middle Passengers:</label>
                         </td>
                         <td>
-                            <input type="number" id="miscMiddleDm" min="-6" max="6" required value="0">
+                            <input type="number" id="miscMiddleDm" min="-6" max="6" required value="0" />
                         </td>
                     </tr>
                     <tr>
@@ -79,32 +78,84 @@
                             <label class="firstColLabels" for="miscBasicDm">Basic Passengers:</label>
                         </td>
                         <td>
-                            <input type="number" id="miscBasicDm" min="-6" max="6" required value="0">
+                            <input type="number" id="miscBasicDm" min="-6" max="6" required value="0" />
                         </td>
                         <td>
                             <label class="secondColLabels" for="miscLowDm">Low Passengers:</label>
                         </td>
                         <td>
-                            <input type="number" id="miscLowDm" min="-6" max="6" required value="0">
+                            <input type="number" id="miscLowDm" min="-6" max="6" required value="0" />
                         </td>
                     </tr>
                 </table>
+
+                <input type="submit" id="rollForPassengers" value="Roll For Passengers" />
+
+                <p class="results" id="passengersResults"></p>
+                <p class="viewDetailsMessage" id="viewDetailsMessage" hidden>View console for details (F12)</p>
             </fieldset>
 
             <fieldset>
-                <legend>Passenger Traffic</legend>
-                <input type="submit" value="Roll For Passengers">
+                <legend>Freight</legend>
+                <label class="firstFormItem" for="freightBrokerStreetwiseDm">Broker or Streetwise Skill:</label>
+                <input class="firstFormItem" type="number" id="freightBrokerStreetwiseDm" min="-3" max="5" required value="1" /><br />
 
-                <p id="passengersResults"></p>
-                <p id="viewDetailsMessage" hidden>View console for details (F12)</p>
+                <label class="firstFormItem miscLabel">Miscellaneous Modifiers</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label class="firstColLabels" for="freightMiscMajorDm">Major Cargo:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="freightMiscMajorDm" min="-6" max="6" required value="0" />
+                        </td>
+                        <td>
+                            <label class="secondColLabels" for="freightMiscMinorDm">Minor Cargo:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="freightMiscMinorDm" min="-6" max="6" required value="0" />
+                        </td>
+                        <td>
+                            <label class="secondColLabels" for="freightMiscIncidebtalDm">Incidental Cargo:</label>
+                        </td>
+                        <td>
+                            <input type="number" id="freightMiscIncidentalDm" min="-6" max="6" required value="0" />
+                        </td>
+                    </tr>
+                </table>
+
+                <input type="submit" id="rollForFreight" value="Roll For Freight" />
+
+                <p class="results" id="freightResults"></p>
+                <p class="viewDetailsMessage" id="freightViewDetailsMessage" hidden>View console for details (F12)</p>
             </fieldset>
+
+            <fieldset>
+                <legend>Mail</legend>
+                <label class="firstFormItem" for="mailBrokerStreetwiseDm">Broker or Streetwise Skill:</label>
+                <input class="firstFormItem" type="number" id="mailBrokerStreetwiseDm" min="-3" max="5" required value="1" /><br />
+                <label class="firstFormItem" for="mailHighestNavelOrScoutRank">Highest Naval or Scout rank:</label>
+                <input class="firstFormItem" type="number" id="mailHighestNavalOrScoutRank" min="0" max="6" required value="1" /><br />
+                <label class="firstFormItem" for="mailHighestSocDm">Highest SOC DM:</label>
+                <input class="firstFormItem" type="number" id="mailHighestSocDm" min="-3" max="3" required value="1" /><br />
+                <label class="firstFormItem" for="mailShipArmed">Ship Armed:</label>
+                <input class="firstFormItem" type="checkbox" id="mailShipArmed" value="Armed" checked /><br />
+                <label class="firstFormItem" for="mailMisc">Miscellaneous DM:</label>
+                <input class="firstFormItem" type="number" id="mailMisc" min="-6" max="6" required value="0" /><br />
+
+                <input type="submit" id="rollForMail" value="Roll For Mail" />
+
+                <p class="results" id="mailResults"></p>
+                <p class="viewDetailsMessage" id="mailViewDetailsMessage" hidden>View console for details (F12)</p>
+            </fieldset>
+
         </form>
     </section>
 
     <footer>
         <p id="copyright">&copy; 2023 atom-ant<br><br></p>
         <p id="permission">
-            Used with the permission of Mongoose Publishing Ltd. Traveller &copy; 2023 Mongoose Publishing. All rights reserved.<br>
+            Used with the permission of Mongoose Publishing Ltd. Traveller &copy; 2023 Mongoose Publishing. All rights reserved.<br />
             Traveller is the trademark of Mongoose Publishing and is used with permission.
         </p>
     </footer>
