@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: © 2023 atom-ant
+// SPDX-License-Identifier: MIT
+
 "use strict";
 
 function addUwpPatternToHtmlElement(id) {
@@ -14,6 +17,7 @@ addUwpPatternToHtmlElement("destinationUwp");
 function onPassengerChange() {
     const passengersResults = document.getElementById("passengersResults")
     passengersResults.innerHTML = "";
+    passengersResults.hidden = true;
     const viewDetailsMessage = document.getElementById("viewDetailsMessage")
     viewDetailsMessage.hidden = true;
     console.clear();
@@ -22,6 +26,7 @@ function onPassengerChange() {
 function onFreightChange() {
     const freightResults = document.getElementById("freightResults")
     freightResults.innerHTML = "";
+    freightResults.hidden = true;
     const freightViewDetailsMessage = document.getElementById("freightViewDetailsMessage")
     freightViewDetailsMessage.hidden = true;
     console.clear();
@@ -30,6 +35,7 @@ function onFreightChange() {
 function onMailChange() {
     const mailResults = document.getElementById("mailResults")
     mailResults.innerHTML = "";
+    mailResults.hidden = true;
     const mailViewDetailsMessage = document.getElementById("mailViewDetailsMessage")
     mailViewDetailsMessage.hidden = true;
     console.clear();
@@ -90,11 +96,22 @@ function rollForPassengers() {
         const miscBasicDm = Number(document.getElementById("miscBasicDm").value);
         const miscLowDm = Number(document.getElementById("miscLowDm").value);
 
+        function passengerText(passengers, credits) {
+            if (passengers === 0) {
+                return "0";
+            } else if (passengers === 1) {
+                return "1 for Cr" + credits.toString();
+            } else {
+                return passengers.toString() + " for Cr" + credits.toString() + " each";
+            }
+        }
+
         passengersResults.innerHTML =
-            "High Passengers: " + Passengers.availableHighPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscHighDm) + "<br />" +
-            "Middle Passengers: " + Passengers.availableMiddlePassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscMiddleDm) + "<br />" +
-            "Basic Passengers: " + Passengers.availableBasicPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscBasicDm) + "<br />" +
-            "Low Passengers: " + Passengers.availableLowPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscLowDm);
+            "High Passengers: " + passengerText(Passengers.availableHighPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscHighDm), Passengers.creditsPerHighPassenger(parsecs)) + "<br />" +
+            "Middle Passengers: " + passengerText(Passengers.availableMiddlePassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscMiddleDm), Passengers.creditsPerMiddlePassenger(parsecs)) + "<br />" +
+            "Basic Passengers: " + passengerText(Passengers.availableBasicPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscBasicDm), Passengers.creditsPerBasicPassenger(parsecs)) + "<br />" +
+            "Low Passengers: " + passengerText(Passengers.availableLowPassengers(brokerCarouseStreetwiseDm, chiefStewardSkill, srcUwp, destUwp, parsecs, miscLowDm), Passengers.creditsPerLowPassenger(parsecs)) + "<br />";
+        passengersResults.hidden = false;
 
         const viewDetailsMessage = document.getElementById("viewDetailsMessage")
         viewDetailsMessage.hidden = false;
@@ -119,10 +136,35 @@ function rollForFreight() {
         const miscMinorDm = Number(document.getElementById("freightMiscMinorDm").value);
         const miscIncidentalDm = Number(document.getElementById("freightMiscIncidentalDm").value);
 
+        function lotText(lots, lotSize) {
+            if (lots === 0) {
+                return "0 lots";
+            }
+
+            let text = "";
+            if (lots === 1) {
+                text = "1 lot of size ";
+            } else {
+                text = lots.toString() + " lots of size ";
+            } 
+            if (lotSize === 1) {
+                text += "1 ton";
+            } else {
+                text += lotSize.toString() + " tons";
+            }
+            if (lots > 1) {
+                text += " each"
+            }
+
+            return text;
+        }
+
         freightResults.innerHTML =
-            "Major Cargo: " + Freight.availableMajorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMajorDm) + " lots of size " + Freight.majorCargoLotSize() + " tons<br />" +
-            "Minor Cargo: " + Freight.availableMinorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMinorDm) + " lots of size " + Freight.minorCargoLotSize() + " tons<br />" +
-            "Incidental Cargo: " + Freight.availableIncidentalCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscIncidentalDm) + " lots of size " + Freight.incidentalCargoLotSize() + " tons";
+            "Major Cargo: " + lotText(Freight.availableMajorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMajorDm), Freight.majorCargoLotSize()) + "<br />" +
+            "Minor Cargo: " + lotText(Freight.availableMinorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMinorDm), Freight.minorCargoLotSize()) + "<br />" +
+            "Incidental Cargo: " + lotText(Freight.availableIncidentalCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscIncidentalDm), Freight.incidentalCargoLotSize()) + "<br />" +
+            "Cr" + Freight.creditsPerTon(parsecs) + " per ton";
+        freightResults.hidden = false;
 
         const freightViewDetailsMessage = document.getElementById("freightViewDetailsMessage")
         freightViewDetailsMessage.hidden = false;
@@ -150,8 +192,20 @@ function rollForMail() {
 
         const containers = Mail.availableMailContainers(brokerStreetwiseSkillLevel, srcUwp, destUwp, parsecs, miscDm, shipArmed, highestNavalScoutRank, highestSocDm);
 
+        function containerText(containers) {
+            if (containers === 0) {
+                return "0";
+            } else if (containers === 1) {
+                return "1 of up to five tons";
+            } else {
+                return containers.toString() + " of up to five tons each";
+            }
+        }
+
         mailResults.innerHTML =
-            "Mail containers available: " + containers + (containers > 0 ? " of up to five tons each" : "");
+            "Mail containers: " + containerText(containers) + "<br />" +
+            "Cr" + Mail.creditsPerContainer() + " per container";
+        mailResults.hidden = false;
 
         const mailViewDetailsMessage = document.getElementById("mailViewDetailsMessage")
         mailViewDetailsMessage.hidden = false;

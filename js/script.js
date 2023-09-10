@@ -1,4 +1,7 @@
-﻿"use strict";
+﻿// SPDX-FileCopyrightText: © 2023 atom-ant
+// SPDX-License-Identifier: MIT
+
+"use strict";
 
 function rollDice(count, modifier = 0) {
     let sum = modifier;
@@ -166,6 +169,110 @@ class Passengers {
         console.groupEnd();
 
         return passengers;
+    }
+    
+    static creditsPerHighPassenger(parsecsTravelled) {
+        let credits = 0;
+        switch (parsecsTravelled) {
+            case 1:
+                credits = 9000;
+                break;
+            case 2:
+                credits = 14000;
+                break;
+            case 3:
+                credits = 21000;
+                break;
+            case 4:
+                credits = 34000;
+                break;
+            case 5:
+                credits = 60000;
+                break;
+            case 6:
+                credits = 210000;
+                break;
+        }
+        
+        return credits;
+    }
+
+    static creditsPerMiddlePassenger(parsecsTravelled) {
+        let credits = 0;
+        switch (parsecsTravelled) {
+            case 1:
+                credits = 6500;
+                break;
+            case 2:
+                credits = 10000;
+                break;
+            case 3:
+                credits = 14000;
+                break;
+            case 4:
+                credits = 23000;
+                break;
+            case 5:
+                credits = 40000;
+                break;
+            case 6:
+                credits = 130000;
+                break;
+        }
+        
+        return credits;
+    }
+
+    static creditsPerBasicPassenger(parsecsTravelled) {
+        let credits = 0;
+        switch (parsecsTravelled) {
+            case 1:
+                credits = 2000;
+                break;
+            case 2:
+                credits = 3000;
+                break;
+            case 3:
+                credits = 5000;
+                break;
+            case 4:
+                credits = 8000;
+                break;
+            case 5:
+                credits = 14000;
+                break;
+            case 6:
+                credits = 55000;
+                break;
+        }
+        
+        return credits;
+    }
+
+    static creditsPerLowPassenger(parsecsTravelled) {
+        let credits = 0;
+        switch (parsecsTravelled) {
+            case 1:
+                credits = 700;
+                break;
+            case 2:
+                credits = 1300;
+                break;
+            case 3:
+                credits = 2200;
+                break;
+            case 4:
+                credits = 3900;
+                break;
+            case 5:
+                credits = 7200;
+                break;
+            case 6:
+                credits = 27000;
+                break;
+        }
+        
+        return credits;
     }
 
     static #effectBrokerCarouseStreetwiseCheck(brokerCarouseStreetwiseSkillLevel) {
@@ -457,6 +564,32 @@ class Freight {
         return freightTrafficDm;
     }
 
+    static creditsPerTon(parsecsTravelled) {
+        let credits = 0;
+        switch (parsecsTravelled) {
+            case 1:
+                credits = 1000;
+                break;
+            case 2:
+                credits = 1600;
+                break;
+            case 3:
+                credits = 2600;
+                break;
+            case 4:
+                credits = 4400;
+                break;
+            case 5:
+                credits = 8500;
+                break;
+            case 6:
+                credits = 32000;
+                break;
+        }
+
+        return credits;
+    }
+
     static #effectBrokerStreetwiseCheck(brokerStreetwiseSkillLevel) {
         const skillCheck = rollDice(2, Number(brokerStreetwiseSkillLevel));
         const effect = (skillCheck - 8);    // Average (8+) 
@@ -697,6 +830,10 @@ class Mail {
         console.groupEnd();
 
         return containers;
+    }
+
+    static creditsPerContainer() {
+        return 25000;
     }
 
     static #mailDmfreightTrafficDm(freightTrafficDm) {
