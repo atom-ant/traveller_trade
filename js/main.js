@@ -84,8 +84,8 @@ function rollForPassengers() {
     passengersResults.innerHTML = "";
     console.clear();
     try {
-        const srcUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
-        const destUwp = new WorlProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
+        const srcUwp = new WorldProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
+        const destUwp = new WorldProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
 
         const brokerCarouseStreetwiseDm = Number(document.getElementById("brokerCarouseStreetwiseDm").value);
         const chiefStewardSkill = Number(document.getElementById("chiefStewardSkill").value);
@@ -126,8 +126,8 @@ function rollForFreight() {
     freightResults.innerHTML = "";
     console.clear();
     try {
-        const srcUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
-        const destUwp = new WorlProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
+        const srcUwp = new WorldProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
+        const destUwp = new WorldProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
 
         const brokerStreetwiseDm = Number(document.getElementById("freightBrokerStreetwiseDm").value);
         const parsecs = Number(document.getElementById("parsecsTravelled").value);
@@ -179,8 +179,8 @@ function rollForMail() {
     mailResults.innerHTML = "";
     console.clear();
     try {
-        const srcUwp = new WorlProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
-        const destUwp = new WorlProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
+        const srcUwp = new WorldProfile(document.getElementById("sourceUwp").value, document.getElementById("sourceTravelZone").value);
+        const destUwp = new WorldProfile(document.getElementById("destinationUwp").value, document.getElementById("destinationTravelZone").value);
 
         const brokerStreetwiseSkillLevel = Number(document.getElementById("mailBrokerStreetwiseDm").value);
         const parsecs = Number(document.getElementById("parsecsTravelled").value);

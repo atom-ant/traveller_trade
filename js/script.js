@@ -11,7 +11,7 @@ function rollDice(count, modifier = 0) {
     return sum;
 }
 
-class WorlProfile {
+class WorldProfile {
     constructor(uwp, travelZone) {
         uwp = uwp.replaceAll(" ", "");
         uwp = uwp.trim().toUpperCase();
@@ -32,13 +32,13 @@ class WorlProfile {
 
         this.uwp = uwp;
         this.starport = uwp[0];
-        this.size = WorlProfile.#hexCharToNumber(uwp[1]);
-        this.atmosphere = WorlProfile.#hexCharToNumber(uwp[2]);
-        this.hydrographics = WorlProfile.#hexCharToNumber(uwp[3]);
-        this.population = WorlProfile.#hexCharToNumber(uwp[4]);
-        this.government = WorlProfile.#hexCharToNumber(uwp[5]);
-        this.lawLevel = WorlProfile.#hexCharToNumber(uwp[6]);
-        this.techLevel = WorlProfile.#hexCharToNumber(uwp[8]);    // skip the hyphen
+        this.size = WorldProfile.#hexCharToNumber(uwp[1]);
+        this.atmosphere = WorldProfile.#hexCharToNumber(uwp[2]);
+        this.hydrographics = WorldProfile.#hexCharToNumber(uwp[3]);
+        this.population = WorldProfile.#hexCharToNumber(uwp[4]);
+        this.government = WorldProfile.#hexCharToNumber(uwp[5]);
+        this.lawLevel = WorldProfile.#hexCharToNumber(uwp[6]);
+        this.techLevel = WorldProfile.#hexCharToNumber(uwp[8]);    // skip the hyphen
 
         this.tradeCodes = [];
         if ((this.atmosphere >= 4 && this.atmosphere <= 9) &&
