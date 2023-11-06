@@ -136,34 +136,67 @@ function rollForFreight() {
         const miscMinorDm = Number(document.getElementById("freightMiscMinorDm").value);
         const miscIncidentalDm = Number(document.getElementById("freightMiscIncidentalDm").value);
 
-        function lotText(lots, lotSize) {
+        function lotText(lots) {
             if (lots === 0) {
                 return "0 lots";
             }
 
             let text = "";
             if (lots === 1) {
-                text = "1 lot of size ";
+                text = "1 lot,";
             } else {
-                text = lots.toString() + " lots of size ";
+                text = lots.toString() + " lots,";
             } 
-            if (lotSize === 1) {
-                text += "1 ton";
+            return text;
+        }
+
+        function tonText(lots, tons) {
+            if (tons === 0) {
+                return "0 tons";
+            }
+
+            let text = "";
+            if (tons === 1) {
+                text = "1 ton";
             } else {
-                text += lotSize.toString() + " tons";
+                text = tons.toString() + " tons";
             }
+
             if (lots > 1) {
-                text += " each"
-            }
+                text+= " each";
+            } 
 
             return text;
         }
 
-        freightResults.innerHTML =
-            "Major Cargo: " + lotText(Freight.availableMajorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMajorDm), Freight.majorCargoLotSize()) + "<br />" +
-            "Minor Cargo: " + lotText(Freight.availableMinorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMinorDm), Freight.minorCargoLotSize()) + "<br />" +
-            "Incidental Cargo: " + lotText(Freight.availableIncidentalCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscIncidentalDm), Freight.incidentalCargoLotSize()) + "<br />" +
-            "Cr" + Freight.creditsPerTon(parsecs) + " per ton";
+        function populateLotSizes(map, availability, lotSizeFunc) {
+            for (let i = 0; i < availability; ++i) {
+                const lotSize = lotSizeFunc();
+                if (map.has(lotSize)) {
+                    map.set(lotSize, map.get(lotSize) + 1);
+                } else {
+                    map.set(lotSize, 1);
+                }
+            }
+        }
+
+        let lotSizes = new Map();
+        populateLotSizes(lotSizes, Freight.availableMajorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMajorDm), Freight.majorCargoLotSize);
+        populateLotSizes(lotSizes, Freight.availableMinorCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscMinorDm), Freight.minorCargoLotSize);
+        populateLotSizes(lotSizes, Freight.availableIncidentalCargoLots(brokerStreetwiseDm, srcUwp, destUwp, parsecs, miscIncidentalDm), Freight.incidentalCargoLotSize);
+        const sortedArrayOfLotSizes = Array.from(lotSizes).sort((a, b) => a[0] - b[0]);
+
+        let resultHtml = '<div class="resultsTableContainer"><table>';
+        if (sortedArrayOfLotSizes.length == 0) {
+            resultHtml += '<tr><td>No Freight</td></tr>';
+        } else {
+            for (const element of sortedArrayOfLotSizes) {
+                resultHtml += '<tr><td>' + lotText(element[1]) + '</td><td>' + tonText(element[1], element[0]) + '</td></tr>';
+            }
+        }
+        resultHtml += '</table>' + '<p>Cr' + Freight.creditsPerTon(parsecs) + ' per ton</p>' + '</div>';
+
+        freightResults.innerHTML = resultHtml;
         freightResults.hidden = false;
 
         const freightViewDetailsMessage = document.getElementById("freightViewDetailsMessage")

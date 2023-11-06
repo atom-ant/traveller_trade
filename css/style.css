@@ -73,6 +73,7 @@ input[type=text] {
 input[type=submit] {
     margin-top: 8px;
     background-color: #e9e9ed;
+    color: black;
     border: 1px solid black;
     border-radius: 4px;
     padding-top: 2px;
@@ -162,6 +163,19 @@ td {
     margin-top: 8px;
     margin-bottom: 8px;
     line-height: 26px;
+}
+
+.resultsTableContainer {
+    overflow-y: auto;
+    max-height: 350px;
+}
+
+.resultsTableContainer td {
+    text-align: left;
+}
+
+.resultsTableContainer td:first-child {
+    padding-right: 5px;
 }
 
 .miscLabel {
