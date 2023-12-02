@@ -143,29 +143,10 @@ function rollForFreight() {
 
             let text = "";
             if (lots === 1) {
-                text = "1 lot,";
+                text = "1 lot";
             } else {
-                text = lots.toString() + " lots,";
+                text = lots.toString() + " lots";
             } 
-            return text;
-        }
-
-        function tonText(lots, tons) {
-            if (tons === 0) {
-                return "0 tons";
-            }
-
-            let text = "";
-            if (tons === 1) {
-                text = "1 ton";
-            } else {
-                text = tons.toString() + " tons";
-            }
-
-            if (lots > 1) {
-                text+= " each";
-            } 
-
             return text;
         }
 
@@ -191,7 +172,7 @@ function rollForFreight() {
             resultHtml += '<tr><td>No Freight</td></tr>';
         } else {
             for (const element of sortedArrayOfLotSizes) {
-                resultHtml += '<tr><td>' + lotText(element[1]) + '</td><td>' + tonText(element[1], element[0]) + '</td></tr>';
+                resultHtml += '<tr><td>' +  element[0] + " ton cargo," + '</td><td>' + lotText(element[1]) + " available" + '</td></tr>';
             }
         }
         resultHtml += '</table>' + '<p>Cr' + Freight.creditsPerTon(parsecs) + ' per ton</p>' + '</div>';
